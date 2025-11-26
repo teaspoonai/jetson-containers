@@ -24,8 +24,9 @@ RUN git clone https://github.com/m-bain/whisperX.git && \
     sed -i 's/==/>=/g' pyproject.toml && \
     sed -i 's/~=/>=/g' pyproject.toml && \
     sed -i 's/ctranslate2</ctranslate2>=/g' pyproject.toml && \
+    sed -i '/\[tool\.uv\.sources\]/,$d' pyproject.toml && \
     cat pyproject.toml && \
-    uv build --wheel --no-deps --wheel-dir dist .
+    uv build --wheel --out-dir dist .
 
 RUN cp whisperX/dist/whisperx*.whl /opt && \
     uv pip install /opt/whisperx*.whl

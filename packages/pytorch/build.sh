@@ -3,6 +3,7 @@
 set -ex
 
 echo "Building PyTorch ${PYTORCH_BUILD_VERSION}"
+export MAX_JOBS=${MAX_JOBS:-1}
 
 # build from source
 git clone --branch "v${PYTORCH_BUILD_VERSION}" --depth=1 --recursive https://github.com/pytorch/pytorch /opt/pytorch ||
