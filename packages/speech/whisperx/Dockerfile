@@ -12,19 +12,17 @@ WORKDIR /opt
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-		  ffmpeg \
+                  ffmpeg \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
 RUN uv pip install scipy jiwer ipywebrtc
 RUN uv pip install scikit-learn
 
-RUN git clone https://github.com/m-bain/whisperX.git && \
+RUN git clone https://github.com/teaspoonai/whisperX.git && \
     cd whisperX && \
-    sed -i 's/==/>=/g' pyproject.toml && \
-    sed -i 's/~=/>=/g' pyproject.toml && \
-    sed -i 's/ctranslate2</ctranslate2>=/g' pyproject.toml && \
-    sed -i '/\[tool\.uv\.sources\]/,$d' pyproject.toml && \
+    git fetch origin && \
+    git checkout main && \
     cat pyproject.toml && \
     uv build --wheel --out-dir dist .
 
