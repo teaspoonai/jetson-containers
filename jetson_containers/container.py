@@ -72,6 +72,11 @@ def _normalize_buildkit_device(device):
     """
     Normalize the BuildKit CDI device requested by the CLI, env, or package config.
     """
+    # PATCH(teaspoon): force-disable the BuildKit CDI `device` entitlement.
+    # Docker 27.5.1 / BuildKit 0.18.2 (pinned on this cluster) predates the
+    # `device` entitlement (added in BuildKit 0.20). No build step needs a GPU
+    # at build time; the ccache --mount=type=cache is unaffected by this.
+    return ""
     if isinstance(device, bool):
         return _DEFAULT_BUILDKIT_DEVICE if device else ''
 
