@@ -72,9 +72,8 @@ export PKG_CONFIG_PATH="$DIST/lib/pkgconfig:$PKG_CONFIG_PATH"
 pkg-config --modversion aom
 pkg-config --modversion SvtAv1Enc
 
-# nv-codec-headers
-git clone https://github.com/FFmpeg/nv-codec-headers.git
-cd nv-codec-headers && make PREFIX="$DIST" install
+# nv-codec-headers SKIPPED (teaspoon): whisperx decodes audio only; no NVENC/NVDEC.
+# Its presence makes ffmpeg auto-enable nvenc against an incompatible headers master.
 
 export PATH=/usr/local/cuda/bin:${PATH}
 NVCCFLAGS="\
@@ -115,14 +114,8 @@ cd $SOURCE
   --enable-libass \
   --enable-libaom \
   --enable-libsvtav1 \
-  --enable-libdav1d \
-  --extra-cflags=-I/usr/local/cuda/include \
-  --extra-ldflags=-L/usr/local/cuda/lib64 \
-  --enable-nvenc \
-  --enable-nvdec \
-  --enable-cuda \
-  --enable-cuvid \
-  --nvccflags="$NVCCFLAGS"
+  --disable-ffnvcodec \
+  --disable-cuda-llvm
 
 make -j"$(nproc)"
 make install
